@@ -31,7 +31,7 @@ def scrum_scraper(s_nome, s_tag, s_tipo, firstPg, lastPg):
     if isinstance(s_tipo, str) and s_tipo is not None:
         params.append(s_tipo)
     
-    search = searchScrum(*params)
+    search = searchScrum(*params) #retorna parte da url formata pelos parâmetros
 
     break_next = False
 
@@ -88,6 +88,9 @@ def scrum_scraper(s_nome, s_tag, s_tipo, firstPg, lastPg):
                 data_poster = ''
             else:
                 data_poster = converterData(data_poster.text)
+
+            """if data_filtro == False: #Se n estiver de acordo com o intervalo de tempo, pula esse resultado
+                continue"""
 
             #Recebendo a descrição    
             descricao_poster = poster.select_one('.list-view-item-teaser')

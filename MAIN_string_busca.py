@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 from copy import deepcopy
+from time import sleep
 
 #--- Meus imports
 from scrum_scraper import scrum_scraper as scrum
@@ -250,6 +251,7 @@ def tratamento_string(string_atual, opened=False, closed=False, continuing=False
 
     return list_all_searches 
 
+
 def mark_operators(input_string):
     quotes_counter = 0
     waiting_other = False
@@ -273,7 +275,8 @@ def mark_operators(input_string):
 
 def clean_result(result):
     for i in range(0, len(result)):
-        result[i] = result[i].replace('"waiting"', '').replace('waiting', '').replace('--', '').strip()
+        result[i] = result[i].replace('"waiting"', '').replace(' "waiting', '"').replace('waiting', '').replace('--', '').strip()
+
         result[i] = " ".join(result[i].split())
     
     return result
@@ -309,14 +312,23 @@ def search_filter(data, AC=False):
             html = requests.get(data['link'][j])
             soup = BeautifulSoup(html.text, 'html.parser')
         except:
-            print('Erro ao conectar-se com página do conteúdo')
-            break
+            print('Erro ao conectar-se com página do conteúdo, tentando novamente...')
+            sleep(10)
+            try:
+                html = requests.get(data['link'][j])
+                soup = BeautifulSoup(html.text, 'html.parser')
+            except:
+                print('Erro ao conectar-se com página do conteúdo.')
+                for key in data:
+                    del data[key][j]
+                continue
+            
 
         if AC:
             div_of_parag = soup.select_one('div.field-item.even')
             div_of_summary = soup.select_one('div.summary')
             if div_of_summary == None:
-                div_of_summary =  soup.select_one('div.field.field-name-body')
+                div_of_summary = soup.select_one('div.field.field-name-body')
 
             if div_of_parag is not None:
                 paragraphs = div_of_parag.find_all('p')
@@ -346,6 +358,8 @@ def search_filter(data, AC=False):
 
             if valid_post:
                 validated = True
+                print("PALAVRAS CHAVES ENCONTRADAS EM:", content.lower(),data['titulo'][j].lower(), f"\n\n{item_elements}" )
+                break
         
         if not validated:
             for key in data:
@@ -363,7 +377,7 @@ def search_on_scrum(result):
     #Pesquisando os resultados das palavras chaves individuais
     for key_word in key_words:
         if len(key_word.split()) >= 2:
-            temp_dict = scrum(f'"{key_word}""', '', '', 0, 999)
+            temp_dict = scrum(f'"{key_word}"', '', '', 0, 999)
 
         else:
             temp_dict = scrum(key_word, '', '', 0, 999)
@@ -440,6 +454,7 @@ def search_on_AC(result):
     return scraped_data_AC
 
 input_string = input('String: ')
+intervalo_data = input('Intervalo de data (ex.: 1/12/2001-12/12/2012): ')
 
 result = tratamento_string(mark_operators(input_string))
 result = clean_result(result)
@@ -448,14 +463,15 @@ print('\nResultado final: ', result)
 
 
 # --- Chamando funções de busca
-scraped_data_scrum = search_on_scrum(result=result)
-scraped_data_AA = search_on_AA(result=result)
 scraped_data_AC = search_on_AC(result=result)
+#scraped_data_scrum = search_on_scrum(result=result)
+#scraped_data_AA = search_on_AA(result=result)
 
 
 # --- Unindo resultados em um único dicionário
 for key in scraped_data:
-    scraped_data[key] += scraped_data_scrum[key] + scraped_data_AA[key] + scraped_data_AC[key]
+    #scraped_data[key] += scraped_data_scrum[key] + scraped_data_AA[key] + scraped_data_AC[key]
+    scraped_data[key] += scraped_data_AC[key]
 
 print(len(scraped_data['titulo']))
 if len(scraped_data['titulo']) > 0: #se algum resultado for capturado

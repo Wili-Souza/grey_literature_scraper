@@ -1,7 +1,7 @@
 from datetime import datetime
 
 def converterData(data):
-
+    #intervalo = intervalo.split('-')
     data = data.strip()
 
     '''if 'January' in data:
@@ -42,9 +42,34 @@ def converterData(data):
         data = f'{items_data[1]}/{items_data[0]}/20{items_data[2]} '
 
     #data = datetime.strptime(data, '%m %d, %Y')
-
     
-    return data
+    """ 
+    if len(intervalo) > 2 or len(intervalo) < 1:
+        print("Warning: Intervalo de data mal formatado, não será aplicado.")
+    else:
+        if len(intervalo) == 2:
+            minimo = (int(x) for x in intervalo[0].strip().split('/'))
+            maximo = (int(x) for x in intervalo[1].strip().split('/'))
+            data_artigo = (int(x) for x in data.strip().split('/'))
+
+            if (data_artigo[0] >= minimo[0] and data_artigo[1] >= minimo[1] and data_artigo[2] >= minimo[2]) \
+            and (data_artigo[0] <= maximo[0] and data_artigo[1] <= maximo[1] and data_artigo[4] <= maximo[3]):
+                filtro = True
+            else:
+                filtro = False
+
+        if len(intervalo) == 1:
+            minimo = (int(x) for x in intervalo[0].strip().split('/'))
+            data_artigo = (int(x) for x in data.strip().split('/'))
+
+            if (data_artigo[0] >= minimo[0] and data_artigo[1] >= minimo[1] and data_artigo[2] >= minimo[2]):
+                filtro = True
+            else:
+                filtro = False
+    """
+    
+    print(data)
+    return data #, filtro
 
 ''' # --------------- Teste
 
