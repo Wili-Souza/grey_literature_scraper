@@ -23,7 +23,12 @@ def scr_presentations_page(soup, lastPage, data):
         }
         
         href = presentation.select_one('a').get('href')
-        url = 'https://www.agileconnection.com' + href
+        if 'https://' not in href and 'http://' not in href:
+            if 'https/' not in href:
+                url = 'https://www.agileconnection.com' + href
+            else:
+                url = href.replace("https/", "https://")
+        
 
         try:
             html = requests.get(url)

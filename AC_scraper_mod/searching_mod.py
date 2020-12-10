@@ -85,9 +85,11 @@ def scr_search_page(soup, lastPage, data, search_index):
                 link_post = ''
             else:
                 link_post = str(href)
-                if 'https://www.agileconnection.com' not in link_post:
-                    link_post = 'https://www.agileconnection.com' + link_post
-            
+                if 'https://' not in link_post and 'http://' not in link_post:
+                    if 'https/' not in link_post:
+                        link_post = 'https://www.agileconnection.com' + link_post
+                    else:
+                        link_post.replace("https/", "https://")
             
 
             #Recebendo data

@@ -313,15 +313,8 @@ def search_filter(data, AC=False):
             soup = BeautifulSoup(html.text, 'html.parser')
         except:
             print('Erro ao conectar-se com página do conteúdo, tentando novamente...')
-            sleep(10)
-            try:
-                html = requests.get(data['link'][j])
-                soup = BeautifulSoup(html.text, 'html.parser')
-            except:
-                print('Erro ao conectar-se com página do conteúdo.')
-                for key in data:
-                    del data[key][j]
-                continue
+            print('Link: {}' .format(data['link'][j]))
+            break
             
 
         if AC:
@@ -358,7 +351,6 @@ def search_filter(data, AC=False):
 
             if valid_post:
                 validated = True
-                print("PALAVRAS CHAVES ENCONTRADAS EM:", content.lower(),data['titulo'][j].lower(), f"\n\n{item_elements}" )
                 break
         
         if not validated:

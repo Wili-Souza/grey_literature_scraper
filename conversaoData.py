@@ -67,8 +67,6 @@ def converterData(data):
             else:
                 filtro = False
     """
-    
-    print(data)
     return data #, filtro
 
 ''' # --------------- Teste
