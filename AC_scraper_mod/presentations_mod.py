@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 #Meus imports
 from AC_scraper_mod.regular_mod import scr_page
 
-def scr_presentations_page(soup, lastPage, data):
+def scr_presentations_page(soup, lastPage, data, data_intervalo):
     num_events = 0
     class_selector_container = 'view view-conference-presentations view-id-conference_presentations view-display-id-conference_page tw-article-list view-dom-id-06a6053d96ef855f6524d2fc825e1f07'
     #class_selector_event = 'ds-1col taxonomy-term vocabulary-event-conference view-mode-token clearfix'
@@ -37,4 +37,4 @@ def scr_presentations_page(soup, lastPage, data):
             print(f'Erro na conexão com {url}')
             continue
 
-        scr_page(soup, lastPage, selectors, data, 2)
+        scr_page(soup, lastPage, selectors, data, 2, data_intervalo)

@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 from AC_scraper_mod.types import type_by_index
 
-def scr_page(soup, lastPage, selec, data, search_index):
+def scr_page(soup, lastPage, selec, data, search_index, data_intervalo):
     page_exist = True
     num_pag = 0
 
@@ -63,8 +63,12 @@ def scr_page(soup, lastPage, selec, data, search_index):
             data_post = post.select_one(selec['date'])
             if data_post == None:
                 data_post = ''
+                data_filtro = True
             else:
-                data_post = converterData(data_post.text)
+                data_post, data_filtro = converterData(data_post.text, data_intervalo)
+            
+            if data_filtro == False:
+                continue
 
             #Recebendo a descrição    
             descricao_post = post.select_one(selec['teaser']).select_one('p')

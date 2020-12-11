@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 from AC_scraper_mod.types import type_by_index
 
-def scr_search_page(soup, lastPage, data, search_index):
+def scr_search_page(soup, lastPage, data, search_index, data_intervalo):
     page_exist = True
     num_pag = 0
     tipo_post = type_by_index(search_index)
@@ -96,8 +96,12 @@ def scr_search_page(soup, lastPage, data, search_index):
             data_post = post.select_one('div.field.field-name-post-date')
             if data_post == None:
                 data_post = ''
+                data_filtro = True
             else:
-                data_post = converterData(data_post.text.replace('-', ''))
+                data_post, data_filtro = converterData(data_post.text.replace('-', ''), data_intervalo)
+            
+            if data_filtro == False:
+                continue
 
 
                 #Salvando no dicionario do dataframe

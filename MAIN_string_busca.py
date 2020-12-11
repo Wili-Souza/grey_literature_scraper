@@ -302,7 +302,7 @@ def eliminate_duplicates(data):
 
 def search_filter(data, AC=False):
     #---------  Fazendo scraping com base nas combinações encontradas
-    for j in range(len(data['titulo']) -1, -1, -1): 
+    for j in range(5 -1, -1, -1): #len(data['titulo'])
         print(j)
         validated = False
         content = ''
@@ -426,10 +426,10 @@ def search_on_AC(result):
     for key_word in key_words:
         if len(key_word.split()) >= 2:
             temp_dict = agileConnection(f'"{key_word}"', f'"{key_word}"', f'"{key_word}"', f'"{key_word}"', \
-                                        f'"{key_word}"', firstPages, lastPages)
+                                        f'"{key_word}"', firstPages, lastPages, intervalo_data)
         else:
             temp_dict = agileConnection(key_word, key_word, key_word, key_word, key_word, firstPages, \
-                                        lastPages)
+                                        lastPages, intervalo_data)
 
         for key in scraped_data_AC:
             scraped_data_AC[key] += temp_dict[key]
@@ -455,15 +455,15 @@ print('\nResultado final: ', result)
 
 
 # --- Chamando funções de busca
-#scraped_data_AC = search_on_AC(result=result)
-scraped_data_scrum = search_on_scrum(result=result)
+scraped_data_AC = search_on_AC(result=result)
+#scraped_data_scrum = search_on_scrum(result=result)
 #scraped_data_AA = search_on_AA(result=result)
 
 
 # --- Unindo resultados em um único dicionário
 for key in scraped_data:
     #scraped_data[key] += scraped_data_scrum[key] + scraped_data_AA[key] + scraped_data_AC[key]
-    scraped_data[key] += scraped_data_scrum[key]
+    scraped_data[key] += scraped_data_AC[key]
 
 print(len(scraped_data['titulo']))
 if len(scraped_data['titulo']) > 0: #se algum resultado for capturado

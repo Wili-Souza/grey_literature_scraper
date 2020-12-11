@@ -25,7 +25,7 @@ selectors = {
     'teaser':'td.views-field.views-field-title'
 }
 
-def agileConnection_scraper(s_articles, s_magazine, s_presentations, s_interviews, s_white_papers, first_pgs, last_pgs):
+def agileConnection_scraper(s_articles, s_magazine, s_presentations, s_interviews, s_white_papers, first_pgs, last_pgs, data_intervalo):
     #busca persoalizada: 
     # articles | better software magazine | conference presentations| 
     # interviews and videos | white papers and download
@@ -82,17 +82,17 @@ def agileConnection_scraper(s_articles, s_magazine, s_presentations, s_interview
 
             # --- Raspando as páginas
         if searching:
-            scr_search_page(soup, lastPage, data, search_index)
+            scr_search_page(soup, lastPage, data, search_index, data_intervalo)
         
         elif search_index == 2:
-            scr_presentations_page(soup, lastPage, data)
+            scr_presentations_page(soup, lastPage, data, data_intervalo)
             
         elif search_index == 4:
             #scr_paper_page(soup, lastPage, data)
-            scr_page(soup, lastPage, selectors, data, search_index)
+            scr_page(soup, lastPage, selectors, data, search_index, data_intervalo)
 
         else:
-            scr_page(soup, lastPage, selectors, data, search_index)
+            scr_page(soup, lastPage, selectors, data, search_index, data_intervalo)
             
 
 
