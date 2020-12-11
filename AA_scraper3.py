@@ -19,7 +19,7 @@ data = { # -> diciionário para data frame
     'autor': []
 }
 
-def agileAlliance_scraper(types_received, lastPage, key_words):
+def agileAlliance_scraper(types_received, lastPage, key_words, date_interval):
     num_pag_scraped = 0
     finished = False
 
@@ -46,7 +46,7 @@ def agileAlliance_scraper(types_received, lastPage, key_words):
     for tp in types_searched:
         if isinstance(tp, dict):
             type_nav = driver.find_elements_by_class_name('aa-local-navigation__link')
-            print('OPCOES ENCONTRADAS:   ', len(type_nav))
+            #print('OPCOES ENCONTRADAS:   ', len(type_nav))
 
             for type_field in type_nav:
                     if type_field.text == list(tp.keys())[0]: #Pegando nome da key do primeiro elemento do dicionário (e unico)
@@ -137,12 +137,12 @@ def agileAlliance_scraper(types_received, lastPage, key_words):
 
             last_height = new_height #Atualiza o último comprimento
         
-        scrap(driver, data) #Faz o web-scraping
+        scrap(driver, data, date_interval) #Faz o web-scraping
 
     else:
         while not finished and num_pag_scraped != lastPage:
             num_pag_scraped += 1
-            scrap(driver, data) #Faz o web-scraping
+            scrap(driver, data, date_interval) #Faz o web-scraping
 
             #Passando a página estática
             next_pag_btn = driver.find_elements_by_class_name('aa-search-pagination__btn')[1] #div do botão next

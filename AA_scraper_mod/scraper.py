@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from AA_scraper_mod.postType import findType
 from conversaoData import converterData
 
-def scrap(driver, data):
+def scrap(driver, data, date_interval):
     #Atualiza o soup com o novo html (contento todos os posts carregados)
     try:
         soup = BeautifulSoup(driver.page_source, 'html.parser')
@@ -25,7 +25,7 @@ def scrap(driver, data):
             titulo_post = ''
         else:
             titulo_post = titulo_post.text.strip()
-        print(titulo_post)
+        #print(titulo_post)
 
         #Recebendo o href (faz uso do type, extraido em postType.py)
         try:
@@ -45,10 +45,14 @@ def scrap(driver, data):
         data_post = post.select_one('time.aa-result-card__created')
         if data_post == None:
             data_post = ''
+            data_filtro = True
         else:
-            data_post = converterData(data_post.text)
+            data_post, data_filtro = converterData(data_post.text, date_interval)
             '''data_post = datetime.strptime(data_post.text, '%-m/%-d/%-y')
             data_post = data_post.strftime('%d/%m/%Y')'''
+
+        if data_filtro == False:
+            continue
 
         #Recebendo a descrição    
         descricao_post = post.select_one('span.aa-result-card__description-content')

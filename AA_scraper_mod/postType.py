@@ -3,7 +3,7 @@
 def findType(soup):
     type_post = soup.select_one('div.aa-result-card__category').select_one('i').get('class')
 
-    print('TIPO INICIAL: ', type_post)
+    #print('TIPO INICIAL: ', type_post)
 
     _type = type_post[0].replace('icon-', '').strip() #Será usado na formação de classes dinâmicas
     type_post = _type.replace('aa_', '').replace('_', ' ').title().strip()
@@ -14,7 +14,7 @@ def findType(soup):
     if type_post == None:
         type_post = ''
 
-    print('TIPO FINAL: ', type_post)
+    #print('TIPO FINAL: ', type_post)
 
     return type_post, _type
 
