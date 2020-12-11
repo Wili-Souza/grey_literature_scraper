@@ -302,7 +302,7 @@ def eliminate_duplicates(data):
 
 def search_filter(data, AC=False):
     #---------  Fazendo scraping com base nas combinações encontradas
-    for j in range(len(data['titulo']) -1, -1, -1):
+    for j in range(len(data['titulo']) -1, -1, -1): 
         print(j)
         validated = False
         content = ''
@@ -369,10 +369,10 @@ def search_on_scrum(result):
     #Pesquisando os resultados das palavras chaves individuais
     for key_word in key_words:
         if len(key_word.split()) >= 2:
-            temp_dict = scrum(f'"{key_word}"', '', '', 0, 999)
+            temp_dict = scrum(f'"{key_word}"', '', '', 0, 999, intervalo_data)
 
         else:
-            temp_dict = scrum(key_word, '', '', 0, 999)
+            temp_dict = scrum(key_word, '', '', 0, 999, intervalo_data)
 
         for key in scraped_data_scrum:
             if key == 'autor':
@@ -455,15 +455,15 @@ print('\nResultado final: ', result)
 
 
 # --- Chamando funções de busca
-scraped_data_AC = search_on_AC(result=result)
-#scraped_data_scrum = search_on_scrum(result=result)
+#scraped_data_AC = search_on_AC(result=result)
+scraped_data_scrum = search_on_scrum(result=result)
 #scraped_data_AA = search_on_AA(result=result)
 
 
 # --- Unindo resultados em um único dicionário
 for key in scraped_data:
     #scraped_data[key] += scraped_data_scrum[key] + scraped_data_AA[key] + scraped_data_AC[key]
-    scraped_data[key] += scraped_data_AC[key]
+    scraped_data[key] += scraped_data_scrum[key]
 
 print(len(scraped_data['titulo']))
 if len(scraped_data['titulo']) > 0: #se algum resultado for capturado

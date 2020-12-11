@@ -15,7 +15,7 @@ data = { # -> diciionário para data frame
     'descricao': []
 }
 
-def scrum_scraper(s_nome, s_tag, s_tipo, firstPg, lastPg):
+def scrum_scraper(s_nome, s_tag, s_tipo, firstPg, lastPg, date):
 
     #intervalo de págs que deseja raspar
     firstPage = firstPg
@@ -87,10 +87,12 @@ def scrum_scraper(s_nome, s_tag, s_tipo, firstPg, lastPg):
             if data_poster == None:
                 data_poster = ''
             else:
-                data_poster = converterData(data_poster.text)
+                data_poster, data_filtro = converterData(data_poster.text, date)
 
-            """if data_filtro == False: #Se n estiver de acordo com o intervalo de tempo, pula esse resultado
-                continue"""
+            if data_filtro == False: #Se n estiver de acordo com o intervalo de tempo, pula esse resultado
+                continue
+            else:
+                print(data_poster)
 
             #Recebendo a descrição    
             descricao_poster = poster.select_one('.list-view-item-teaser')
